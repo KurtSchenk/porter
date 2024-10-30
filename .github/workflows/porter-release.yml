@@ -11,7 +11,7 @@ jobs:
     name: build_pipelinesrelease_template
     uses: "./.github/workflows/build_pipelinesrelease_template.yml"
     with:
-      registry: ghcr.io/getporter
+      registry: ghcr.io/kurtschenk
       shouldPublish: true
       skipTests: false
     secrets: inherit
