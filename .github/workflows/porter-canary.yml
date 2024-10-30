@@ -9,7 +9,7 @@ jobs:
     name: build_pipelinesrelease_template
     uses: ./.github/workflows/build_pipelinesrelease_template.yml
     with:
-      registry: docker.io/pisees/getporter
+      registry: ghcr.io/kurtschenk
       shouldPublish: true
       skipTests: false
     secrets: inherit

@@ -18,6 +18,6 @@ jobs:
     name: build_pipelinesrelease_template
     uses: "./.github/workflows/build_pipelinesrelease_template.yml"
     with:
-      registry: ghcr.io/getporter/test
+      registry: ghcr.io/kurtschenk/test
       shouldPublish: ${{ inputs.shouldPublish }}
       skipTests: ${{ inputs.skipTests }}

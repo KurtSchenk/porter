@@ -1,7 +1,8 @@
 # Create tags for release
 tag() {
-  git tag v1.1.3 -a -m ""
-  git push v1.1.3
+  tag=$1
+  git tag $1 -a -m ""
+  git push $1
   git push --tags
 }
 
@@ -47,40 +48,36 @@ build() {
     # mage -v TestSmoke
 }
 
+publish() {
+    
+    # gh auth login
+    # export PORTER_RELEASE_REPOSITORY=github.com/KurtSchenk/porter # github.com/KurtSchenk/porter
+    #DONE # mage -v PublishPorter
+    
+    # Publish Mixins
+    # export PORTER_PACKAGES_REMOTE=https://github.com/KurtSchenk/packages.git
+    # DONE # mage -v PublishMixins
+    
+    # Publish Docker Images
+    ## Download Cross-Compiled Porter Binaries
+    ## Setup Binaries
+    ## go run mage.go ConfigureAgent UseXBuildBinaries
+    # DONE # mage UseXBuildBinaries
 
-# Publish
-# TODO: Change repo
-# github.com/getporter/porter
-# Set this outside of script
-# run gh auth login before this
-gh auth login
-export PORTER_RELEASE_REPOSITORY=github.com/KurtSchenk/porter
-mage -v PublishPorter
-# Tagged Release: true
-# Permalink: latest-dev
-# Version: v1.1.3
-# Commit: 52c05ef4
-# Repository: getporter/porter
+    # Login to Container Registry
+    # docker login
+    # TODO: Do this on shell that executes scripts
+    # export GITHUB_TOKEN=ghp_i8K...# 
+    echo $GITHUB_TOKEN | docker login ghcr.io -u KurtSchenk --password-stdin
+    export PORTER_REGISTRY=ghcr.io/kurtschenk # docker.io/pisees/getporter
+    mage PublishImages PublishServerMultiArchImages
 
-exit
+}
+
+# tag v1.1.4
+# build
+publish
 
 
-
-# Publish Mixins
-# releases.PublishMixinFeed("exec")
-# DONE # mage -v PublishMixins
-# Tagged Release: false
-
-# Publish Docker Images
-## Download Cross-Compiled Porter Binaries
-## Should be in ./bin
-## Setup Binaries
-## go run mage.go ConfigureAgent UseXBuildBinaries
-# DONE mage UseXBuildBinaries
-
-# Login to Container Registry
-docker login
-PORTER_REGISTRY=docker.io/pisees/getporter
-mage PublishImages PublishServerMultiArchImages
 
 
