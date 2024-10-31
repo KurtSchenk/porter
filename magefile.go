@@ -482,10 +482,12 @@ func PublishPorter() {
 	porterVersionDir := filepath.Join("bin", info.Version)
 	execVersionDir := filepath.Join("bin/mixins/exec", info.Version)
 	var repo = os.Getenv("PORTER_RELEASE_REPOSITORY")
+	fmt.Println("PORTER_RELEASE_REPOSITORY:", repo)
 	if repo == "" {
 		repo = "github.com/getporter/porter"
 	}
 	remote := fmt.Sprintf("https://%s.git", repo)
+	fmt.Println("Remote link:", remote)
 
 	// Create or update GitHub release for the permalink (canary/latest) with the version's assets (porter binaries, exec binaries and install scripts)
 	if info.ShouldPublishPermalink() {
