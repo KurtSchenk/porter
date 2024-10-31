@@ -18,7 +18,8 @@ mkdir -p "$LOCAL_GO_PATH"
 # chown -R kurt:kurt /home/kurt/
 
 install_go() {
-    version=1.22.0 #1.23.1
+    #1.21.3 is what I saw in GitHub Actions
+    version=1.21.3 # 1.22.0 #1.23.1
 
     # Remove any old versions of Go
     sudo rm -rf /usr/local/go*
@@ -65,8 +66,10 @@ go_run() {
 
 # build_docker
 
-# install_go # Kill terminal can come back
+install_go # Kill terminal can come back
 # go version
+
+exit 
 
 # Kill terminal and start a new one to see the binary
 cmd='
@@ -74,4 +77,4 @@ go run mage.go EnsureMage
 '
 go_run "$cmd"
 
-# Make a change to test Porter GitHub Action workflows
+# Make a change to test Porter GitHub Action workflows. v2
