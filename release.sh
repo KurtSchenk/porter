@@ -51,7 +51,7 @@ build() {
 publish() {
     
     # gh auth login
-    # export PORTER_RELEASE_REPOSITORY=github.com/KurtSchenk/porter # github.com/KurtSchenk/porter
+    # export PORTER_RELEASE_REPOSITORY=github.com/kurtschenk/porter # github.com/KurtSchenk/porter
     #DONE # mage -v PublishPorter
     
     # Publish Mixins
