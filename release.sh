@@ -84,9 +84,12 @@ mixins install exec --version v1.1.1
 
     # porter image is not quite working
     # docker run -it ghcr.io/kurtschenk/porter:v1.1.4 version
-    docker run --rm -v ./.my-porter:/.porter ghcr.io/kurtschenk/porter-agent:v1.1.4 mixins list
+    docker run --rm -v ./.my-porter:/app/.porter ghcr.io/kurtschenk/porter:v1.1.4 version
 exit
-    docker run -it ghcr.io/kurtschenk/porter-agent:v1.1.4 mixins list
+    docker run --rm ghcr.io/kurtschenk/porter:v1.1.4 mixins list # mixins are there. So agent is differen
+
+exit
+    docker run -it ghcr.io/kurtschenk/porter-agent:v1.1.4 mixins list #  could not list the contents of the mixins directory "/home/nonroot/.porter/mixins": open /home/nonroot/.porter/mixins: no such file or directory
     docker run -it ghcr.io/kurtschenk/porter-agent:v1.1.4 mixins 
     docker run -it ghcr.io/kurtschenk/porter:v1.1.4 mixins install exec --version v1.1.1
 
