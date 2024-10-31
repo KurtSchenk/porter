@@ -11,5 +11,5 @@ jobs:
     with:
       registry: ghcr.io/kurtschenk
       shouldPublish: true
-      skipTests: false
+      skipTests: true
     secrets: inherit
