@@ -19,6 +19,10 @@ on:
         required: false
         default: false
         type: boolean
+      PORTER_RELEASE_REPOSITORY:
+        required: false
+        default: ghcr.io/KurtSchenk/porter
+        type: string 
 jobs:
   Validate-build:
     name: Native Compile
@@ -130,6 +134,8 @@ jobs:
     - Validate-integration_test
     - Validate-smoke_test
     runs-on: ubuntu-latest
+    env:
+      PORTER_RELEASE_REPOSITORY: ${{ inputs.PORTER_RELEASE_REPOSITORY }}
     permissions: write-all
     if: success() && ${{ inputs.shouldPublish == true }}
     steps:
@@ -160,7 +166,7 @@ jobs:
   publish-ghcr:
     env:
       DOCKER_REGISTRY: ${{inputs.registry}}
-      DOCKER_USERNAME: getporterbot
+      DOCKER_USERNAME: kurtschenk
       VERSION: ${{github.ref_name}}
     name: Publish Docker Images
     needs:
