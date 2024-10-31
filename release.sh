@@ -74,10 +74,46 @@ publish() {
 
 }
 
+run_porter_container()
+{
+
+    cmd='
+mixins list
+mixins install exec --version v1.1.1
+'
+
+    # porter image is not quite working
+    # docker run -it ghcr.io/kurtschenk/porter:v1.1.4 version
+    docker run --rm -v ./.my-porter:/.porter ghcr.io/kurtschenk/porter-agent:v1.1.4 mixins list
+exit
+    docker run -it ghcr.io/kurtschenk/porter-agent:v1.1.4 mixins list
+    docker run -it ghcr.io/kurtschenk/porter-agent:v1.1.4 mixins 
+    docker run -it ghcr.io/kurtschenk/porter:v1.1.4 mixins install exec --version v1.1.1
+
+}
+
+run_porter_download()
+{
+    curl -fsSLo ./porterv1.1.4 https://github.com/kurtschenk/porter/releases/download/v1.1.4/porter-linux-amd64
+    chmod +x ./porterv1.1.4
+    ./porterv1.1.4 version
+    ./porterv1.1.4 mixins install exec
+    # installed exec mixin v1.1.1 (f8faad1a)
+    /porterv1.1.4 mixins list
+    # ---------------------------------
+    # Name  Version  Author          
+    # ---------------------------------
+    # exec  v1.1.1   Porter Authors  
+    
+    # TODO: I cannot install exec v1.1.4 yet. Because not properly configured in https://github.com/kurtschenk/packages/blob/main/mixins/atom.xml
+}
+
 # tag v1.1.4
 # build
-publish
+# publish
 
+run_porter_container
+# run_porter_download
 
 
 
