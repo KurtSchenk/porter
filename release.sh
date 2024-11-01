@@ -1,5 +1,11 @@
 # Create tags for release
-tag() {
+delete_tag() {
+  tag=$1
+  git tag -d $1
+  git push --delete origin $1
+}
+
+set_tag() {
   tag=$1
   git tag $1 -a -m ""
   git push $1
@@ -50,21 +56,22 @@ build() {
 
 publish() {
     
-    # gh auth login
-    # export PORTER_RELEASE_REPOSITORY=github.com/kurtschenk/porter # github.com/KurtSchenk/porter
-    #DONE # mage -v PublishPorter
+    gh auth login
+    export PORTER_RELEASE_REPOSITORY=github.com/kurtschenk/porter # github.com/KurtSchenk/porter
+    mage -v PublishPorter
     
     # Publish Mixins
-    # export PORTER_PACKAGES_REMOTE=https://github.com/KurtSchenk/packages.git
-    # DONE # mage -v PublishMixins
+    export PORTER_PACKAGES_REMOTE=https://github.com/KurtSchenk/packages.git
+    mage -v PublishMixins
     
     # Publish Docker Images
     ## Download Cross-Compiled Porter Binaries
     ## Setup Binaries
-    ## go run mage.go ConfigureAgent UseXBuildBinaries
-    # DONE # mage UseXBuildBinaries
+    #  go run mage.go ConfigureAgent UseXBuildBinaries
+    mage UseXBuildBinaries
 
     # Login to Container Registry
+    # Not needed
     # docker login
     # TODO: Do this on shell that executes scripts
     # export GITHUB_TOKEN=ghp_i8K...# 
@@ -81,28 +88,37 @@ run_porter_container()
 mixins list
 mixins install exec --version v1.1.1
 '
-
-    # porter image is not quite working
+     # porter image is not quite working
     # docker run -it ghcr.io/kurtschenk/porter:v1.1.4 version
-    docker run --rm -v ./.my-porter:/app/.porter ghcr.io/kurtschenk/porter:v1.1.4 version
-exit
-    docker run --rm ghcr.io/kurtschenk/porter:v1.1.4 mixins list # mixins are there. So agent is differen
+    # docker run --rm -v ./.my-porter:/app/.porter ghcr.io/kurtschenk/porter:v1.1.4 version
+
+    # Works. Can change entrypoint
+    # docker run --rm -it --entrypoint '/app/bin/cat' -v /usr/bin/:/app/bin/ nginx /app/bin/hi.txt
+    # docker run --rm -it --entrypoint '/app/.porter/mixins/exec/exec' -v /usr/bin/:/usr/bin/ ghcr.io/kurtschenk/porter-agent:v1.1.1-1 version
+    
+    # This works
+    # docker run --rm -it --entrypoint '/app/bin/cat' -v /usr/bin/:/app/bin/ nginx /app/bin/hi.txt
+    # But this does not
+docker run --rm -it --entrypoint '/app/bin/cat' -v /usr/bin/:/app/bin/ ghcr.io/kurtschenk/porter-agent:v1.1.1-1 /app/bin/hi.txt
 
 exit
-    docker run -it ghcr.io/kurtschenk/porter-agent:v1.1.4 mixins list #  could not list the contents of the mixins directory "/home/nonroot/.porter/mixins": open /home/nonroot/.porter/mixins: no such file or directory
-    docker run -it ghcr.io/kurtschenk/porter-agent:v1.1.4 mixins 
-    docker run -it ghcr.io/kurtschenk/porter:v1.1.4 mixins install exec --version v1.1.1
+    docker run --rm ghcr.io/kurtschenk/porter-agent:v1.1.1-1 mixins list # mixins are there. So agent is differen
+
+exit
+    docker run -it ghcr.io/kurtschenk/porter-agent:v1.1.1-1 mixins list #  could not list the contents of the mixins directory "/home/nonroot/.porter/mixins": open /home/nonroot/.porter/mixins: no such file or directory
+    docker run -it ghcr.io/kurtschenk/porter-agent:v1.1.1-1 mixins 
+    docker run -it ghcr.io/kurtschenk/porter:v1.1.1-1 mixins install exec --version v1.1.1
 
 }
 
 run_porter_download()
 {
-    curl -fsSLo ./porterv1.1.4 https://github.com/kurtschenk/porter/releases/download/v1.1.4/porter-linux-amd64
-    chmod +x ./porterv1.1.4
-    ./porterv1.1.4 version
-    ./porterv1.1.4 mixins install exec
+    # curl -fsSLo ./porterv1.1.1-1 https://github.com/kurtschenk/porter/releases/download/v1.1.1-1/porter-linux-amd64
+    # chmod +x ./porterv1.1.1-1
+    ./porterv1.1.1-1 version
+    ./porterv1.1.1-1 mixins install exec
     # installed exec mixin v1.1.1 (f8faad1a)
-    /porterv1.1.4 mixins list
+    ./porterv1.1.1-1 mixins list
     # ---------------------------------
     # Name  Version  Author          
     # ---------------------------------
@@ -111,11 +127,13 @@ run_porter_download()
     # TODO: I cannot install exec v1.1.4 yet. Because not properly configured in https://github.com/kurtschenk/packages/blob/main/mixins/atom.xml
 }
 
-# tag v1.1.4
-# build
+# tag=v1.1.1-2
+# delete_tag $tag
+# set_tag $tag
+build
 # publish
 
-run_porter_container
+# run_porter_container
 # run_porter_download
 
 
