@@ -35,7 +35,7 @@ func LookupDriver(cxt *portercontext.Context, name string) (driver.Driver, error
 		// Add my check using cnab lookup where I made changes
 		_, err := lookup.Lookup(name)
 		if err != nil {
-			return nil, err
+			fmt.Println("My lookup:", err)
 		}
 
 		return nil, fmt.Errorf("unsupported driver or driver not found in PATH ???: %s", name)

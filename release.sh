@@ -20,14 +20,14 @@ build() {
     # mage ConfigureAgent
 
     # Native build
-    mage build
+    mage -v build
 
     # Publish native binaries
     # Not needed, they will be in ./bin folder
 
     # Cross-Compile
     # Leave out for now.
-    mage XBuildAll
+    mage -v XBuildAll
 
     # Publish Release Binaries
     # Not needed, will be in ./bin folder
@@ -127,9 +127,9 @@ run_porter_download()
     # TODO: I cannot install exec v1.1.4 yet. Because not properly configured in https://github.com/kurtschenk/packages/blob/main/mixins/atom.xml
 }
 
-# tag=v1.1.1-2
-# delete_tag $tag
-# set_tag $tag
+tag=v1.1.1-2
+delete_tag $tag
+set_tag $tag
 build
 # publish
 

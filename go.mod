@@ -5,7 +5,7 @@ go 1.21
 toolchain go1.21.3
 
 replace (
-	github.com/cnabio/cnab-go => github.com/KurtSchenk/cnab-go v0.25.4
+	github.com/cnabio/cnab-go => github.com/KurtSchenk/cnab-go v0.25.5
 
 	// See https://github.com/hashicorp/go-plugin/pull/127 and
 	// https://github.com/hashicorp/go-plugin/pull/163

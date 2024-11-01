@@ -30,6 +30,8 @@ coverage-unit.out
 coverage-integration.out
 
 # OS Binaries
+app/
 debian_binaries/
 debian_latest/
 debian_libs/
+
