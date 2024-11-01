@@ -118,8 +118,8 @@ run_porter_download()
         ./porter "$@"
     }
     version=v1.1.1-2
-    # curl -fsSLo ./porter https://github.com/kurtschenk/porter/releases/download/$version/porter-linux-amd64
-    # chmod +x ./porter
+    curl -fsSLo ./porter https://github.com/kurtschenk/porter/releases/download/$version/porter-linux-amd64
+    chmod +x ./porter
     porter version
     porter install -r test -d test # will have output from cnab-go "My lookup: Aha!"
     porter mixins list # does not havve v1.1.1-2 in this case because not installed locally. However, the docker image above has the correct exec mixin in it.
@@ -131,6 +131,46 @@ run_porter_download()
     porter plugins list
 }
 
+run_porter_download_cdn() {
+
+    dash_version=$1
+
+    # Define a function to call the porter binary
+    porter() {
+        ./porter "$@"
+    }
+    
+    # Installs the porter CLI for a single user.
+    # PORTER_HOME:      Location where Porter is installed (defaults to ~/.porter).
+    # PORTER_MIRROR:    Base URL where Porter assets, such as binaries and atom feeds, are downloaded.
+    #                   This lets you setup an internal mirror.
+    # PORTER_VERSION:   The version of Porter assets to download.
+
+    # HAve to be existing released verstion to download scripts
+    export VERSION=v1.1.1
+    export PORTER_HOME=${PORTER_HOME:-~/.porter}
+    export PORTER_VERSION=$VERSION
+
+    curl -L https://cdn.porter.sh/$VERSION/install-linux.sh -o porter-install-linux.sh
+    chmod +x porter-install-linux.sh
+
+
+    if [ -n "$dash_version" ]; then
+        # now updated to the version you want
+        export VERSION=v1.1.1$dash_version
+        export PORTER_VERSION=$VERSION
+        export PORTER_MIRROR=https://github.com/kurtschenk/porter/releases/download
+    fi
+
+     ./porter-install-linux.sh
+    
+    # if there is a dash version then need to install exec mixin from fork
+    if [ -n "$dash_version" ]; then
+       ~/.porter/porter mixin install exec --version $VERSION --url $PORTER_MIRROR  
+    fi  
+
+}
+
 # tag=v1.1.1-2
 # delete_tag $tag
 # set_tag $tag
@@ -138,7 +178,9 @@ run_porter_download()
 # publish
 
 # run_porter_container
-run_porter_download
+# run_porter_download
+dash_version="-2"
+run_porter_download_cdn $dash_version
 
 
 
