@@ -113,28 +113,32 @@ exit
 
 run_porter_download()
 {
-    # curl -fsSLo ./porterv1.1.1-1 https://github.com/kurtschenk/porter/releases/download/v1.1.1-1/porter-linux-amd64
-    # chmod +x ./porterv1.1.1-1
-    ./porterv1.1.1-1 version
-    ./porterv1.1.1-1 mixins install exec
-    # installed exec mixin v1.1.1 (f8faad1a)
-    ./porterv1.1.1-1 mixins list
-    # ---------------------------------
-    # Name  Version  Author          
-    # ---------------------------------
-    # exec  v1.1.1   Porter Authors  
-    
-    # TODO: I cannot install exec v1.1.4 yet. Because not properly configured in https://github.com/kurtschenk/packages/blob/main/mixins/atom.xml
+    # Define a function to call the porter binary
+    porter() {
+        ./porter "$@"
+    }
+    version=v1.1.1-2
+    # curl -fsSLo ./porter https://github.com/kurtschenk/porter/releases/download/$version/porter-linux-amd64
+    # chmod +x ./porter
+    porter version
+    porter install -r test -d test # will have output from cnab-go "My lookup: Aha!"
+    porter mixins list # does not havve v1.1.1-2 in this case because not installed locally. However, the docker image above has the correct exec mixin in it.
+    porter mixin install exec --version $version --url https://github.com/kurtschenk/porter/releases/download/ --verbosity debug
+    porter mixins list
+    # After creating a fork of azure plugin and use url like above for mixin
+    version=v1.2.3
+    porter plugins install azure --version $version --url https://github.com/getporter/azure-plugins/releases/download --verbosity debug
+    porter plugins list
 }
 
-tag=v1.1.1-2
-delete_tag $tag
-set_tag $tag
-build
+# tag=v1.1.1-2
+# delete_tag $tag
+# set_tag $tag
+# build
 # publish
 
 # run_porter_container
-# run_porter_download
+run_porter_download
 
 
 
