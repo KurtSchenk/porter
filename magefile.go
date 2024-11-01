@@ -512,6 +512,7 @@ func PublishPorter() {
 
 // Publish internal porter mixins, like exec.
 func PublishMixins() {
+	// releases.PublishMixin("exec") // Not needed for exec, it is published to porter release: https://github.com/kurtschenk/porter/releases
 	releases.PublishMixinFeed("exec")
 }
 
