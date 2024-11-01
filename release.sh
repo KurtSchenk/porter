@@ -126,8 +126,8 @@ run_porter_download()
     porter mixin install exec --version $version --url https://github.com/kurtschenk/porter/releases/download/ --verbosity debug
     porter mixins list
     # After creating a fork of azure plugin and use url like above for mixin
-    version=v1.2.3
-    porter plugins install azure --version $version --url https://github.com/getporter/azure-plugins/releases/download --verbosity debug
+    version=v1.2.3-1    
+    porter plugins install azure --version $version --url https://github.com/kurtschenk/azure-plugins/releases/download/ --verbosity debug
     porter plugins list
 }
 
