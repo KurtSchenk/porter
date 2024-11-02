@@ -61,6 +61,7 @@ publish() {
     mage -v PublishPorter
     
     # Publish Mixins
+    export PORTER_MIRROR=https://github.com/kurtschenk/porter/releases/download
     export PORTER_PACKAGES_REMOTE=https://github.com/KurtSchenk/packages.git
     mage -v PublishMixins
     
@@ -135,19 +136,8 @@ run_porter_download_cdn() {
 
     dash_version=$1
 
-    # Define a function to call the porter binary
-    porter() {
-        ./porter "$@"
-    }
-    
-    # Installs the porter CLI for a single user.
-    # PORTER_HOME:      Location where Porter is installed (defaults to ~/.porter).
-    # PORTER_MIRROR:    Base URL where Porter assets, such as binaries and atom feeds, are downloaded.
-    #                   This lets you setup an internal mirror.
-    # PORTER_VERSION:   The version of Porter assets to download.
-
-    # HAve to be existing released verstion to download scripts
-    export VERSION=v1.1.1
+    # Hve to be existing released verstion to download scripts
+    export VERSION=v1.1.0
     export PORTER_HOME=${PORTER_HOME:-~/.porter}
     export PORTER_VERSION=$VERSION
 

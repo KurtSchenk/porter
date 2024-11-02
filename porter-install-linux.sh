@@ -9,7 +9,7 @@ set -euo pipefail
 
 export PORTER_HOME=${PORTER_HOME:-~/.porter}
 export PORTER_MIRROR=${PORTER_MIRROR:-https://cdn.porter.sh}
-PORTER_VERSION=${PORTER_VERSION:-v1.1.1}
+PORTER_VERSION=${PORTER_VERSION:-v1.1.0}
 
 echo "Installing porter@$PORTER_VERSION to $PORTER_HOME from $PORTER_MIRROR"
 
